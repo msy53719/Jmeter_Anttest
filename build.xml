@@ -39,14 +39,14 @@
         -Djmeter.home=.. - path to JMeter home directory (defaults to parent of this build file)
         -Dreport.title="My Report" - title for html report (default is 'Load Test Results')
     </description>
-
-	<property name="usedir" value="D:\Tool\apache-jmeter-4.0\extras" />
+	<property name="basedir" value="." />
+	<property name="usedir" value="${basedir}/apache-jmeter-4.0/extras" />
 	<!-- 定义目录 -->
-	<property name="jmeter.home" value="D:\Tool\apache-jmeter-4.0" />
+	<property name="jmeter.home" value="${basedir}/apache-jmeter-4.0" />
 	<!-- jmeter目录 -->
-	<property name="script.dir" value="D:\demo\script" />
+	<property name="script.dir" value="${basedir}/test_script" />
 	<!-- 测试脚本jmxc存放目录 -->
-	<property name="report.dir" value="D:\demo\report" />
+	<property name="report.dir" value="${basedir}/test_report" />
 	<!-- 测试报告report存放目录 -->
 	<property name="report.title" value="Test Results" />
 	<!-- 测试报告report的title -->
