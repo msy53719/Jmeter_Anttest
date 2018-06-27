@@ -20,8 +20,20 @@ pipeline {
         }
     }
     post {
+       success {
+          // publish html
+          publishHTML target: [
+              allowMissing: false,
+              alwaysLinkToLastBuild: false,
+              keepAll: true,
+              reportDir: './test_report',
+              reportFiles: 'Test.html',
+              reportName: 'Test Report'
+            ]
+        }
+    
         always {
-            echo 'test'
+            echo 'package report'
             sh 'sh ./script/report.sh'
             archiveArtifacts artifacts: 'test-report*.tar.gz', fingerprint: true
         }
