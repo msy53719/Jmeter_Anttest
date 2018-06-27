@@ -14,7 +14,7 @@ pipeline {
         stage('Smoking Test') {
             steps {
                 sh 'env'
-                echo 'Start test'
+                echo 'execute test'
                 sh 'sh ./script/execute_test.sh'
             }
         }
@@ -22,6 +22,8 @@ pipeline {
     post {
         always {
             echo 'test'
+            sh 'sh ./script/report.sh'
+            archiveArtifacts artifacts: 'test-report*.tar.gz', fingerprint: true
         }
         failure {
             echo 'this area is run when failure'
