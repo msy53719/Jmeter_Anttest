@@ -18,6 +18,12 @@ pipeline {
                 sh 'sh ./script/execute_test.sh'
             }
         }
+        
+          stage('send report') {
+            steps {
+             mail bcc: '', body: '${FILE, path="./test_report/Test.html"}', cc: '479979298@qq.com', from: 'tianjiao223@sina.cn', replyTo: '', subject: '测试报告', to: '479979298@qq.com'
+            }
+        }
     }
     post {
        success {
@@ -26,9 +32,9 @@ pipeline {
               allowMissing: false,
               alwaysLinkToLastBuild: false,
               keepAll: true,
-              reportDir: './test_report',
+              reportDir: './test_report/',
               reportFiles: 'Test.html',
-              reportName: 'Test Report'
+              reportName: 'Html Report'
             ]
         }
     
