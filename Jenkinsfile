@@ -19,18 +19,14 @@ pipeline {
             }
         }
         
-          stage('send report') {
-            steps {
-             mail bcc: '', body: '${FILE, path="./test_report/Test.html"}', cc: '479979298@qq.com', from: 'tianjiao223@sina.cn', replyTo: '', subject: '测试报告', to: '479979298@qq.com'
-             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
-             emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: '测试0001', to: '479979298@qq.com'
-            }            
-        }
     }
     post {
-       success {
-          // publish html
-          publishHTML target: [
+    
+        always {
+            echo 'package report'
+            sh 'sh ./script/report.sh'
+            archiveArtifacts artifacts: 'test-report*.tar.gz', fingerprint: true
+            publishHTML target: [
               allowMissing: false,
               alwaysLinkToLastBuild: false,
               keepAll: true,
@@ -38,12 +34,10 @@ pipeline {
               reportFiles: 'Test.html',
               reportName: 'Html Report'
             ]
-        }
-    
-        always {
-            echo 'package report'
-            sh 'sh ./script/report.sh'
-            archiveArtifacts artifacts: 'test-report*.tar.gz', fingerprint: true
+            
+        emailext attachLog: true, body: '测试报告地址：\n  ${BUILD_URL}/Html_20Report/index.html', compressLog: true, subject: '测试报告地址', to: '479979298@qq.com'
+            
+           
         }
         failure {
             echo 'this area is run when failure'
